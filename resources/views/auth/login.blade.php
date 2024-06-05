@@ -26,7 +26,7 @@
     text-align: center;
     margin-bottom: 30px;
   }
-  input[type="text"], input[type="password"] {
+  input[type="email"], input[type="password"] {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 20px;
@@ -52,8 +52,12 @@
     <h2>Login</h2>
     <form action="{{ route('login') }}" method="post">
       @csrf
-      <input type="text" id="username" name="username" placeholder="Usuário" required>
-      <input type="password" id="password" name="password" placeholder="Senha" required>
+      <input type="email" id="email" name="email" placeholder="E-mail" 
+                    value="{{ old('email') }}" required>
+      @error('email') <span>{{ $message }}</span> @enderror
+      <input type="password" id="password" name="password" placeholder="Senha" 
+                    required>
+      @error('password') <span>{{ $message }}</span> @enderror
       <input type="submit" value="Logar">
     </form>
   </div>
