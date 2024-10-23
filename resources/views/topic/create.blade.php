@@ -29,6 +29,13 @@
                 <input type="text" name="image" id="image" class="form-control" />
                 @error('image') <span>{{ $message }}</span> <br /> @enderror
 
+                <label for="category" class="form-label">Categoria</label>
+                <select name="category" id="category" class="form-control">
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                    @endforeach
+                </select>
+
                 <input type="submit" value="Cadastrar" class="mt-4 btn btn-secondary">
             </form>
         </div>
