@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TopicController;
 
 
 Route::view('/', 'dashboard');
@@ -21,6 +22,17 @@ Route::group(['prefix' => 'categories'], function() {
         Route::put('/{id}/edit', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/{id}/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
+    
+Route::group(['prefix' => 'topics'], function() {
+        Route::get('/', [TopicController::class, 'index'])->name('topics.index');
+        Route::get('/create', [TopicController::class, 'create'])->name('topics.create');
+        Route::post('/create', [TopicController::class, 'store'])->name('topics.store');
+        Route::get('/{id}/edit', [TopicController::class, 'edit'])->name('topics.edit');
+        Route::put('/{id}/edit', [TopicController::class, 'update'])->name('topics.update');
+        Route::delete('/{id}/destroy', [TopicController::class, 'destroy'])->name('topics.destroy');
+});
+
+
 Route::group(['prefix' => 'categories'], function() {
     Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/{id}', [CategoryController::class, 'show'])->name('categories.show');

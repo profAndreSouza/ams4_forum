@@ -13,6 +13,17 @@ abstract class Post extends Model
         'image'
     ];
 
+    // Relacionamento Polimórfico
+    public function postable()
+    {
+        return $this->morphTo();
+    }
+
+    // public function topic()
+    // {
+    //     return $this->hasOne(Topic::class, 'id');
+    // }
+
     public function user()
     {
         return $this->belongsTo(User::class);
