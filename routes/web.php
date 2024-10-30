@@ -23,7 +23,7 @@ Route::group(['prefix' => 'categories'], function() {
         Route::delete('/{id}/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
     
-Route::group(['prefix' => 'topics'], function() {
+Route::group(['prefix' => 'topics','middleware' => ['auth']], function() {
         Route::get('/', [TopicController::class, 'index'])->name('topics.index');
         Route::get('/create', [TopicController::class, 'create'])->name('topics.create');
         Route::post('/create', [TopicController::class, 'store'])->name('topics.store');
