@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\Controller;
+
 use App\Models\Post;
 use App\Models\Topic;
 use App\Models\Category;
@@ -40,6 +43,13 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
+
+        if (!Auth::user())
+            return ("Unauthorized");
+
+            
+        $userId = Auth::id();
+
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -48,18 +58,34 @@ class TopicController extends Controller
             'category' => 'required'
         ]);
 
-        $topic = new Topic([
+        $topic = Topic::create([
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
             'category_id' => $request->category
         ]);
 
+        Auth::user()->$topic->post()->create([
+            'user_id' => Auth::id(),
+            'image' => $request->image,
+            // 'image' => $request->file('image')->store('images', 'public')
+        ]);
+
+        // $topic = new Topic([
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     'status' => $request->status,
+        //     'category_id' => $request->category
+        // ]);
+
         // $post = new Post([
         //     'image' => $request->image
         // ]);
 
+        
         // $topic->post()->save($post);
+
+
 
         return($topic);
         
