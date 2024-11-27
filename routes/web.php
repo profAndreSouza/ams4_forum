@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'HomeForum'])->name('forum');
 
 Route::resource('categories', CategoryController::class);
+Route::resource('users', UserController::class);
 
 
 
