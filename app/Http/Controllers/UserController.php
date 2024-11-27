@@ -67,7 +67,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('users.profile', compact('user'));
     }
 
     /**
@@ -91,7 +92,31 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'string|min:3|nullable',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        
+        // converter para Base64 e salvar no banco de dados - NÃO RECOMENDÁVEL PARA BD RELACIONAL
+        // $imageFile = $request->file('image');
+        // $imageBase64 = base64_encode(file_get_contents($imageFile));
+
+        // Fazer o upload e capturar o caminho para salvar no banco
+        $imagePath = $request->file('image')->store('images', 'public');
+        
+        $user = User::where('id', $id)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->photo = $imagePath;
+        if ($request->password != '') {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        return redirect()->route('users.show', [$user->id])
+                ->with('message', 'Atualizado com sucesso!');
     }
 
     /**
